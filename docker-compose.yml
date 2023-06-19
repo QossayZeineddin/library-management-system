@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  app:
+    build:
+      context: .
+      args:
+        - DEV=true
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./app:/app
+    command: >
+      sh -c " python manage.py migrate &&
+              python manage.py runserver 0.0.0.0:8000"
+#      sh -c " python manage.py wait_for_db &&
+#                    python manage.py migrate &&
+#                    python manage.py runserver 0.0.0.0:8000"
+
+    environment:
+      - DB_HOST=db
+      - DB_NAME=django_library_api_task
+      - MYSQL_ROOT_PASSWORD=q123
+#      - DB_USER=root
+#      - DB_PASS=q123
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:latest
+    volumes:
+      - dev-db-data:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=django_library_api_task
+#      - MYSQL_USER=root
+#      - MYSQL_PASSWORD=q123
+      - MYSQL_ROOT_PASSWORD=q123
+volumes:
+  dev-db-data:
