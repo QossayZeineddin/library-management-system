@@ -5,6 +5,7 @@ create the database models
 
 from django.db import models
 from django.contrib.auth.models import (AbstractBaseUser, BaseUserManager, PermissionsMixin)
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class UserManager(BaseUserManager):
@@ -51,3 +52,31 @@ class User(AbstractBaseUser, PermissionsMixin):
     @classmethod
     def user_birthday_greater_than_2016(cls):
         return User.objects.filter(birthday__year__gt=2016)
+
+
+class Patron(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField(unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Book(models.Model):
+    author = models.ForeignKey(Patron, on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    price = models.FloatField(
+        validators=[
+            MinValueValidator(10),
+            MaxValueValidator(200)
+        ]
+    )
+    publication_date = models.DateField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.title}, by {self.author.name}"
+
