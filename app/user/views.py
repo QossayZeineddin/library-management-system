@@ -28,7 +28,7 @@ class CreateTokenView(ObtainAuthToken):
         user = serializer.validated_data['user']
         utc_now = datetime.datetime.utcnow()
         utc_now = utc_now.replace(tzinfo=pytz.utc)
-        Token.objects.filter(user=user, created__lt=utc_now - datetime.timedelta(seconds=60)).delete()
+        Token.objects.filter(user=user, created__lt=utc_now - datetime.timedelta(seconds=240)).delete()
         Token.objects.get_or_create(user=user)
         return Response({
             'user_id': user.id,

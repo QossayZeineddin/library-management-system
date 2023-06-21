@@ -24,7 +24,7 @@ class BookViewSet(viewsets.ModelViewSet):
 
 class PatronViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PatronSerializer
-    queryset = Book.objects.all()
+    queryset = Patron.objects.all()
     authentication_classes = [ExpiringTokenAuthentication]
     permission_classes = [permissions.IsAuthenticated]
 

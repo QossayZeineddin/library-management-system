@@ -57,6 +57,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Patron(models.Model):
     name = models.CharField(max_length=255)
     email = models.EmailField(unique=True)
+    birthday = models.DateField(blank=True, null=True, verbose_name='Date of Birth', help_text='Enter your birthdate')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

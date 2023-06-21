@@ -22,4 +22,4 @@ class PatronSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Patron
-        fields = ['id', 'name', 'email', 'created_at', 'updated_at']
+        fields = ['id', 'name', 'email', 'birthday', 'created_at', 'updated_at']
